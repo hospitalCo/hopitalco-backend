@@ -1,9 +1,12 @@
-FROM python:3.8
+FROM python:3-alpine
 ENV PYTHONUNBUFFERED 1
 
 # Allows docker to cache installed dependencies between builds
 COPY ./requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN apk add --no-cache postgresql-libs bash && \
+	apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
+RUN pip install -r requirements.txt --no-cache-dir
+RUN apk --purge del .build-deps
 
 # Adds our application code to the image
 COPY . code
