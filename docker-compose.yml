@@ -2,33 +2,41 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:12-alpine
+    image: "postgres:12-alpine"
     environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
-      POSTGRES_DB: development
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "development"
+    ports:
+      - "8002:5432"
 
   web:
     environment:
-      - DJANGO_SECRET_KEY=local
-    image: web
+      DJANGO_SECRET_KEY: "local"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "development"
+      DATABASE_URL: "postgres"
+      DATABASE_PORT: "5432"
+
+    image: "web"
     build: ./
     command: >
       bash -c "python wait_for_postgres.py &&
-               ./manage.py migrate &&
-               ./manage.py runserver 0.0.0.0:8000"
+      ./manage.py migrate &&
+      ./manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./:/code
+      - "./:/code"
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      - "postgres"
 
   documentation:
-    restart: always
-    build: ./
+    restart: "always"
+    build: "./"
     command: "mkdocs serve"
     volumes:
-      - ./:/code
+      - "./:/code"
     ports:
       - "8001:8001"
