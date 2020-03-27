@@ -6,6 +6,7 @@ from configurations import Configuration
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 class Common(Configuration):
 
     INSTALLED_APPS = (
@@ -16,11 +17,9 @@ class Common(Configuration):
         "django.contrib.messages",
         "django.contrib.staticfiles",
         # Third party apps
-
-        'rest_framework',            # utilities for rest apis
+        "rest_framework",  # utilities for rest apis
         # 'rest_framework.authtoken',  # token authentication
-        'django_filters',            # for filtering rest endpoints
-
+        "django_filters",  # for filtering rest endpoints
         # Your apps
         "hospitalco.users",
     )
@@ -156,15 +155,5 @@ class Common(Configuration):
             "rest_framework.renderers.BrowsableAPIRenderer",
         ),
         "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
-        "DEFAULT_AUTHENTICATION_CLASSES": (
-            "rest_framework.authentication.SessionAuthentication",
-            "rest_framework.authentication.TokenAuthentication",
-        ),
-        'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated',
-        ],
-        'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.SessionAuthentication',
-            # 'rest_framework.authentication.TokenAuthentication',
-        )
+        "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.SessionAuthentication"),
     }
