@@ -4,7 +4,7 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
-from rest_framework.authtoken.models import Token
+# from rest_framework.authtoken.models import Token
 from django.core.validators import RegexValidator
 
 phone_number_regex = RegexValidator(
@@ -15,22 +15,19 @@ phone_number_regex = RegexValidator(
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    is_hospital = models.BooleanField(default=True)
-    name = models.CharField(max_length=100, blank=True)
-    address = models.CharField(max_length=100, blank=True)
-    phoneNumber = models.CharField(max_length=14, validators=[phone_number_regex])
+    phone_number = models.CharField(max_length=14, validators=[phone_number_regex], blank=False, null=False)
+
     def __str__(self):
-        return self.username
+        return f'{self.first_name} {self.last_name}'
  
 class HospitalProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='hospital_profile')
-    hospitalId = models.CharField(max_length=20)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, related_name='hospital_profile')
+    name = models.CharField(max_length=30, null=False)
+    gstin = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=100, null=False)
     
 class VendorProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='vendor_profile')
-    gstin = models.CharField(max_length=20)
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+    name = models.CharField(max_length=30, null=False)
+    gstin = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=100, null=False)
