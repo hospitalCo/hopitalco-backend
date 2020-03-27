@@ -5,7 +5,6 @@ import dj_database_url
 from configurations import Configuration
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 class Common(Configuration):
 
     INSTALLED_APPS = (
@@ -19,7 +18,7 @@ class Common(Configuration):
 
         # Third party apps
         'rest_framework',            # utilities for rest apis
-        'rest_framework.authtoken',  # token authentication
+        # 'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
 
         # Your apps
@@ -53,6 +52,7 @@ class Common(Configuration):
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
+            # default='postgres://postgres:postgres@127.0.0.1:5432/test_1',
             default='postgres://postgres:postgres@postgres:5432/development',
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
@@ -196,6 +196,6 @@ class Common(Configuration):
         ],
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework.authentication.SessionAuthentication',
-            'rest_framework.authentication.TokenAuthentication',
+            # 'rest_framework.authentication.TokenAuthentication',
         )
     }
