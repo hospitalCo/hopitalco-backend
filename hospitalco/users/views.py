@@ -5,10 +5,11 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import authenticate, SessionAuthentication, BasicAuthentication 
 from rest_framework.response import Response
-from .models import User, HospitalProfile, VendorProfile
+from .models import User, HospitalProfile, VendorProfile, Item, Category, Requirement, Stock
 from .permissions import IsUserOrReadOnly
 from .serializers import CreateUserSerializer, UserSerializer, HospitalProfileSerializer, \
-    VendorProfileSerializer, CreateHospitalSerializer, CreateVendorSerializer
+    VendorProfileSerializer, CreateHospitalSerializer, CreateVendorSerializer, CreateRequirementSerializer, \
+    CreateStockSerializer, ItemSerializer, CategorySerializer, StockSerializer, RequirementSerializer
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -154,4 +155,88 @@ class UserVendorView(viewsets.ViewSet):
         serializer.save()
 
         return Response(serializer.data)
-        
+    
+class HospitalRequirementView(viewsets.ViewSet):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+
+    def get(self, request):
+
+        try:
+            if request.user.hospital_profile is None:
+                return Response(status=status.HTTP_200_OK)
+
+            queryset = Requirement.objects.filter(hospital=request.user.hospital_profile)
+            serializer = CreateRequirementSerializer(queryset, many=True)
+            return Response(serializer.data)
+
+        except Requirement.DoesNotExist:
+            return Response(status=status.HTTP_200_OK)
+
+    def post(self, request):
+
+        if request.user.hospital_profile is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = CreateRequirementSerializer(data=request.data, context={'user': request.user})
+        if not serializer.is_valid():
+            return Response(serializer.errors)
+        serializer.save()
+
+        return Response(serializer.data)
+
+class VendorStockView(viewsets.ViewSet):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+
+    def get(self, request):
+
+        try: 
+            vendor_profile = request.user.vendor_profile 
+        except VendorProfile.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            queryset = Stock.objects.filter(vendor=request.user.vendor_profile)
+            serializer = CreateStockSerializer(queryset, many=True)
+            return Response(serializer.data)
+
+        except Requirement.DoesNotExist:
+            return Response(status=status.HTTP_200_OK)
+
+    def post(self, request):
+
+        try: 
+            vendor_profile = request.user.vendor_profile 
+        except VendorProfile.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = CreateStockSerializer(data=request.data, context={'user': request.user})
+        if not serializer.is_valid():
+            return Response(serializer.errors)
+        serializer.save()
+
+        return Response(serializer.data)
+
+class StockViewList(mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
+    """
+    Updates and retrieves user accounts
+    """
+    
+    queryset = Stock.objects.all()
+    serializer_class = StockSerializer
+    permission_classes = (AllowAny,)
+
+class RequirementViewList(mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
+    """
+    Updates and retrieves user accounts
+    """
+    
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
+    permission_classes = (AllowAny,)
+    

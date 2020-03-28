@@ -26,8 +26,39 @@ class HospitalProfile(models.Model):
     gstin = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=100, null=False)
     
+    def __str__(self):
+        return f'{self.name}'
+        
 class VendorProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='vendor_profile')
     name = models.CharField(max_length=30, null=False)
     gstin = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=100, null=False)
+
+    def __str__(self):
+        return f'{self.name}'
+
+class Category(models.Model):
+
+    name = models.CharField(max_length=30, null=False)
+
+class Item(models.Model):
+
+    name = models.CharField(max_length=30, null=False)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, related_name='item')
+
+    def __str__(self):
+        return f'{self.name}'
+
+class Requirement(models.Model):
+
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=False, related_name='requirement')
+    hospital = models.ForeignKey(HospitalProfile, on_delete=models.CASCADE, null=False, related_name='requirement')
+    units = models.CharField(max_length=20, null=True, blank=True)
+
+class Stock(models.Model):
+
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=False, related_name='stock')
+    vendor = models.ForeignKey(VendorProfile, on_delete=models.CASCADE, null=False, related_name='stock')
+    units = models.CharField(max_length=20, null=True, blank=True)
+    
