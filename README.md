@@ -1,6 +1,6 @@
 # hopitalco-backend
 
-[![Build Status](https://travis-ci.org/hospitalCo/hopitalco-backend.svg?branch=master)](https://travis-ci.org/hospitalCo/hopitalco-backend)
+[![Build Status](https://travis-ci.com/hospitalCo/hopitalco-backend.svg?branch=master)](https://travis-ci.com/hospitalCo/hopitalco-backend)
 [![Built with](https://img.shields.io/badge/Built_with-Cookiecutter_Django_Rest-F7B633.svg)](https://github.com/agconti/cookiecutter-django-rest)
 
 Providing a simple, focussed marketplace for healthcare.. Check out the

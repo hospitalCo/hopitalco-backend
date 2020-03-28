@@ -22,6 +22,7 @@ class Common(Configuration):
         "django_filters",  # for filtering rest endpoints
         # Your apps
         "hospitalco.users",
+        "hospitalco.market",
     )
 
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
