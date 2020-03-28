@@ -5,7 +5,7 @@ from hospitalco.users.models import User
 
 class Item(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=100, blank=False)
+    name = models.CharField(max_length=100,unique=True, blank=False)
     details = models.TextField(blank=True)
     class Meta:
         ordering = ['name']
