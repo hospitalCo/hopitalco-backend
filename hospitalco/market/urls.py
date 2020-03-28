@@ -1,6 +1,4 @@
-from django.urls import include, path, re_path
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.base import RedirectView
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import ItemViewSet, RequirementViewSet

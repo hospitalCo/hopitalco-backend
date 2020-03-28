@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from hospitalco.users.views import CsrfExemptSessionAuthentication
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
