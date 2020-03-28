@@ -2,8 +2,19 @@ from hospitalco.users.views import CsrfExemptSessionAuthentication
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
-from .models import Item, Requirement
-from .serializers import ItemSerializer, RequirementSerializer
+from .models import Category, Item, Requirement
+from .serializers import CategorySerializer, ItemSerializer, RequirementSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Categories to be viewed or edited.
+    """
+
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = (CsrfExemptSessionAuthentication,)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
