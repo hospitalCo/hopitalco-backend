@@ -45,8 +45,10 @@ class Common(Configuration):
 
     # CORS ALL
     CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
+        'http://localhost:3000',
+        'http://localhost:8000',
+        'http://localhost:8080',
+    ]
     # CORS_ORIGIN_ALLOW_ALL = True
 
     # Email
