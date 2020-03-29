@@ -20,7 +20,7 @@ class Common(Configuration):
         'rest_framework',            # utilities for rest apis
         # 'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
-
+        'corsheaders',               # for cors
         # Your apps
         'hospitalco.users',
 
@@ -30,6 +30,7 @@ class Common(Configuration):
     MIDDLEWARE = (
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -42,6 +43,9 @@ class Common(Configuration):
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
     WSGI_APPLICATION = 'hospitalco.wsgi.application'
 
+    # CORS ALL
+    CORS_ORIGIN_ALLOW_ALL = True
+    
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
