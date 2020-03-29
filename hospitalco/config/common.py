@@ -45,7 +45,7 @@ class Common(Configuration):
 
     # CORS ALL
     CORS_ORIGIN_ALLOW_ALL = True
-    
+
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
