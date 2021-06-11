@@ -1,4 +1,6 @@
-# hopitalco-backend
+# hopitalco-backend [ARCHIVED]
+
+> This project is archived, you might like to check how we used cookiecutter and how we set up the dev container.
 
 [![Build Status](https://travis-ci.org/hospitalCo/hopitalco-backend.svg?branch=master)](https://travis-ci.org/hospitalCo/hopitalco-backend)
 [![Built with](https://img.shields.io/badge/Built_with-Cookiecutter_Django_Rest-F7B633.svg)](https://github.com/agconti/cookiecutter-django-rest)
